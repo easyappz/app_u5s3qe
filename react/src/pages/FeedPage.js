@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Button, Input, Row, Col, Avatar, Typography, List, Divider, Badge } from 'antd';
-import { HeartOutlined, CommentOutlined, LogoutOutlined, SearchOutlined, BellOutlined, UserOutlined } from '@ant-design/icons';
+import { Card, Button, Input, Row, Col, Avatar, Typography, List, Divider } from 'antd';
+import { HeartOutlined, CommentOutlined } from '@ant-design/icons';
 import { getPosts, createPost, likePost } from '../api/posts';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 import '../styles/vk-theme.css';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const FeedPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newPost, setNewPost] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -21,19 +21,14 @@ const FeedPage = () => {
       } catch (err) {
         if (err.response?.status === 401) {
           localStorage.removeItem('token');
-          navigate('/login');
+          window.location.href = '/login';
         }
       } finally {
         setLoading(false);
       }
     };
     fetchPosts();
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  };
+  }, []);
 
   const handlePostSubmit = async () => {
     if (!newPost.trim()) return;
@@ -61,38 +56,10 @@ const FeedPage = () => {
 
   return (
     <div className="vk-container">
-      <div className="vk-header">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div className="vk-logo">ВКонтакте</div>
-          <div className="vk-search-bar">
-            <SearchOutlined className="vk-search-icon" />
-            <input placeholder="Поиск" />
-          </div>
-        </div>
-        <div className="vk-header-menu">
-          <div className="vk-header-icons">
-            <Badge count={3} className="vk-notification-badge">
-              <BellOutlined className="vk-header-icon" />
-            </Badge>
-            <UserOutlined className="vk-header-icon" onClick={() => navigate('/profile')} />
-          </div>
-          <Button type="text" className="vk-menu-item" onClick={handleLogout} icon={<LogoutOutlined />}>Выход</Button>
-        </div>
-      </div>
+      <Header />
       <Row gutter={16} className="vk-content">
         <Col span={6} className="vk-sidebar">
-          <Card className="vk-sidebar-card">
-            <div className="vk-menu">
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Моя страница</Button>
-              <Button type="text" className="vk-menu-item active"><HeartOutlined className="vk-menu-item-icon" />Новости</Button>
-              <Button type="text" className="vk-menu-item"><CommentOutlined className="vk-menu-item-icon" />Сообщения</Button>
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Друзья</Button>
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Сообщества</Button>
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Фотографии</Button>
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Музыка</Button>
-              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Видео</Button>
-            </div>
-          </Card>
+          <Sidebar />
         </Col>
         <Col span={18}>
           <Card className="vk-post-card">

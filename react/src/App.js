@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import FeedPage from './pages/FeedPage';
 import './App.css';
+import './styles/vk-theme.css';
 
 function App() {
   const ProtectedRoute = ({ children }) => {
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="App vk-app-container">
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
