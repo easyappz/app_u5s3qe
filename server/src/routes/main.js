@@ -1,29 +1,31 @@
 const express = require('express');
-const mongoose = require('mongoose');
-
-/**
- * Пример создания модели в базу данных
- */
-// const MongoTestSchema = new mongoose.Schema({
-//   value: { type: String, required: true },
-// });
-
-// const MongoModelTest = mongoose.model('Test', MongoTestSchema);
-
-// const newTest = new MongoModelTest({
-//   value: 'test-value',
-// });
-
-// newTest.save();
+const authController = require('@src/controllers/authController');
+const profileController = require('@src/controllers/profileController');
+const postController = require('@src/controllers/postController');
+const authMiddleware = require('@src/middleware/auth');
 
 const router = express.Router();
 
-// GET /api/hello
+// Auth routes
+router.post('/auth/register', authController.register);
+router.post('/auth/login', authController.login);
+
+// Profile routes
+router.get('/profile', authMiddleware, profileController.getProfile);
+router.put('/profile', authMiddleware, profileController.updateProfile);
+
+// Post routes
+router.post('/posts', authMiddleware, postController.createPost);
+router.get('/posts', postController.getPosts);
+router.get('/posts/:id', postController.getPost);
+router.post('/posts/:id/like', authMiddleware, postController.likePost);
+router.post('/posts/:id/comment', authMiddleware, postController.addComment);
+
+// Default routes
 router.get('/hello', (req, res) => {
   res.json({ message: 'Hello from API!' });
 });
 
-// GET /api/status
 router.get('/status', (req, res) => {
   res.json({ 
     status: 'ok',
