@@ -11,6 +11,8 @@
   --vk-divider-color: #e7e8ec;
   --vk-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   --vk-icon-color: #818c99;
+  --vk-notification-color: #ff3347;
+  --vk-online-color: #4bb34b;
 }
 
 body {
@@ -98,6 +100,31 @@ body {
   padding: 8px 0;
 }
 
+.vk-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--vk-text-color);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.vk-menu-item:hover {
+  background-color: var(--vk-hover-color);
+}
+
+.vk-menu-item.active {
+  background-color: var(--vk-hover-color);
+  color: var(--vk-accent-color);
+  font-weight: 600;
+}
+
+.vk-menu-item-icon {
+  margin-right: 10px;
+  font-size: 16px;
+  color: var(--vk-icon-color);
+}
+
 .vk-profile-card, .vk-post-card {
   border-radius: 8px;
   box-shadow: var(--vk-shadow);
@@ -117,6 +144,18 @@ body {
 .vk-profile-avatar {
   border: 3px solid var(--vk-border-color);
   border-radius: 50%;
+  position: relative;
+}
+
+.vk-online-badge {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--vk-online-color);
+  border-radius: 50%;
+  border: 2px solid var(--vk-card-background);
 }
 
 .vk-profile-info {
@@ -131,7 +170,7 @@ body {
   line-height: 24px;
 }
 
-.vk-profile-email {
+.vk-profile-status {
   color: var(--vk-icon-color);
   font-size: 14px;
   display: block;
@@ -142,6 +181,17 @@ body {
   margin-top: 10px;
   font-size: 14px;
   color: var(--vk-text-color);
+}
+
+.vk-profile-detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.vk-profile-detail-icon {
+  margin-right: 10px;
+  color: var(--vk-icon-color);
 }
 
 .vk-button-primary {
@@ -212,6 +262,10 @@ body {
 
 .vk-post-action:hover {
   color: var(--vk-accent-color);
+}
+
+.vk-post-action.liked {
+  color: var(--vk-notification-color);
 }
 
 .vk-textarea {
@@ -312,6 +366,71 @@ body {
   color: var(--vk-icon-color);
 }
 
+.vk-notification-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.vk-notification-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: var(--vk-notification-color);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 10px;
+  min-width: 10px;
+  text-align: center;
+}
+
+.vk-search-bar {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 5px 12px;
+  margin-left: 20px;
+  transition: background-color 0.2s;
+}
+
+.vk-search-bar input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  margin-left: 8px;
+  width: 200px;
+}
+
+.vk-search-bar:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.vk-search-icon {
+  color: white;
+  font-size: 14px;
+}
+
+.vk-header-icons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.vk-header-icon {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.vk-header-icon:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .ant-divider {
   border-top: 1px solid var(--vk-divider-color);
 }
@@ -323,10 +442,4 @@ body {
 .ant-list-item {
   padding: 0;
   border-bottom: none;
-}
-
-.vk-menu-item.active {
-  background-color: var(--vk-hover-color);
-  color: var(--vk-accent-color);
-  font-weight: 600;
 }

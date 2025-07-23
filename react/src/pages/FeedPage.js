@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, Input, Row, Col, Avatar, Typography, List, Divider } from 'antd';
-import { HeartOutlined, CommentOutlined, LogoutOutlined } from '@ant-design/icons';
-import { getPosts, createPost, likePost, commentPost } from '../api/posts';
+import { Card, Button, Input, Row, Col, Avatar, Typography, List, Divider, Badge } from 'antd';
+import { HeartOutlined, CommentOutlined, LogoutOutlined, SearchOutlined, BellOutlined, UserOutlined } from '@ant-design/icons';
+import { getPosts, createPost, likePost } from '../api/posts';
 import '../styles/vk-theme.css';
 
 const { Title, Text } = Typography;
@@ -62,10 +62,20 @@ const FeedPage = () => {
   return (
     <div className="vk-container">
       <div className="vk-header">
-        <div className="vk-logo">ВКонтакте</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="vk-logo">ВКонтакте</div>
+          <div className="vk-search-bar">
+            <SearchOutlined className="vk-search-icon" />
+            <input placeholder="Поиск" />
+          </div>
+        </div>
         <div className="vk-header-menu">
-          <Button type="text" className="vk-menu-item" onClick={() => navigate('/profile')}>Профиль</Button>
-          <Button type="text" className="vk-menu-item active">Новости</Button>
+          <div className="vk-header-icons">
+            <Badge count={3} className="vk-notification-badge">
+              <BellOutlined className="vk-header-icon" />
+            </Badge>
+            <UserOutlined className="vk-header-icon" onClick={() => navigate('/profile')} />
+          </div>
           <Button type="text" className="vk-menu-item" onClick={handleLogout} icon={<LogoutOutlined />}>Выход</Button>
         </div>
       </div>
@@ -73,10 +83,14 @@ const FeedPage = () => {
         <Col span={6} className="vk-sidebar">
           <Card className="vk-sidebar-card">
             <div className="vk-menu">
-              <Button type="text" className="vk-menu-item">Моя страница</Button>
-              <Button type="text" className="vk-menu-item active">Новости</Button>
-              <Button type="text" className="vk-menu-item">Сообщения</Button>
-              <Button type="text" className="vk-menu-item">Друзья</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Моя страница</Button>
+              <Button type="text" className="vk-menu-item active"><HeartOutlined className="vk-menu-item-icon" />Новости</Button>
+              <Button type="text" className="vk-menu-item"><CommentOutlined className="vk-menu-item-icon" />Сообщения</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Друзья</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Сообщества</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Фотографии</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Музыка</Button>
+              <Button type="text" className="vk-menu-item"><UserOutlined className="vk-menu-item-icon" />Видео</Button>
             </div>
           </Card>
         </Col>
@@ -125,7 +139,7 @@ const FeedPage = () => {
                     type="text"
                     icon={<HeartOutlined />}
                     onClick={() => handleLike(post._id)}
-                    className="vk-post-action"
+                    className={`vk-post-action ${post.likes.includes(post.author?._id) ? 'liked' : ''}`}
                   >
                     {post.likes.length}
                   </Button>
